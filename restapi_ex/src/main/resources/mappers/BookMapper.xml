@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.restapi_ex.mapper.BookMapper">
+    <select id="findAll" resultType="com.example.restapi_ex.dto.BookDto">
+        SELECT * FROM book
+    </select>
+
+    <select id="findByTitle" parameterType="string" resultType="com.example.restapi_ex.dto.BookDto">
+        SELECT * FROM book WHERE TITLE = #{title}
+    </select>
+
+    <insert id="registerBook" parameterType="com.example.restapi_ex.dto.BookDto">
+        INSERT INTO book (id, title, author, publisher, published_date) VALUES (#{id}, #{title}, #{author}, #{publisher}, #{published_date})
+    </insert>
+
+    <update id="updateBook" parameterType="com.example.restapi_ex.dto.BookDto">
+        UPDATE book SET title = #{title}, author = #{author}, publisher = #{publisher}, published_date = #{published_date} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteBook" parameterType="com.example.restapi_ex.dto.BookDto">
+        DELETE FROM book WHERE id = #{id}
+    </delete>
+</mapper>
