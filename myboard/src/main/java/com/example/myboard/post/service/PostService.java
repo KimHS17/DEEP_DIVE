@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,5 +59,36 @@ public class PostService {
                 .content(entity.getContent())
                 .postedAt(entity.getPostedAt())
                 .build();
+    }
+
+    public List<PostViewResponse> all() {
+        return postRepository.findAllByStatusOrderByIdDesc("REGISTERED").stream()
+                .map(post -> PostViewResponse.builder()
+                        .id(post.getId())
+                        .userName(post.getUserName())
+                        .email(post.getEmail())
+                        .title(post.getTitle())
+                        .content(post.getContent())
+                        .postedAt(post.getPostedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public void delete(@Valid PostViewRequest postViewRequest) {
+        postRepository.findFirstByIdAndStatusOrderByIdDesc(postViewRequest.getPostId(), "REGISTERED")
+                .map(it -> {
+                    // entity 존재
+                    if(!it.getPassword().equals(postViewRequest.getPassword())) {
+                        throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+                    }
+                    it.setStatus("UNREGISTERED");
+                    postRepository.save(it);
+                    return it;
+                })
+                .orElseThrow(
+                        () -> {
+                            return new RuntimeException(("해당 게시글이 존재하지 않습니다 : " + postViewRequest.getPostId()));
+                        }
+                );
     }
 }

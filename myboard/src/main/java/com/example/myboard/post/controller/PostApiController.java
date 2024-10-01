@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
@@ -27,5 +29,17 @@ public class PostApiController {
             @Valid @RequestBody PostViewRequest postViewRequest
             ) {
         return postService.view(postViewRequest);
+    }
+
+    @GetMapping("/all")
+    public List<PostViewResponse> all() {
+        return postService.all();
+    }
+
+    @PostMapping("/delete")
+    public void delete(
+            @Valid @RequestBody PostViewRequest postViewRequest
+    ) {
+        postService.delete(postViewRequest);
     }
 }
