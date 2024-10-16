@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Info = () => {
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    console.log("effect");
+    return () => {
+      console.log("cleanup");
+    };
+  }, []);
 
   const onChangeName = (e) => {
     setName(e.target.value);
