@@ -3,13 +3,17 @@ import PostList from "./components/PostList";
 import { Route, Routes } from "react-router-dom";
 import PostDetail from "./components/PostDetail";
 import PostCreate from "./components/PostCreate";
-import "./App.css";
+import BoardList from "./components/BoardList";
+import BoardCreate from "./components/BoardCreate";
 
 const App = () => {
   return (
     <div>
-      <h1>익명 질문 게시판</h1>
+      <h1>게시판</h1>
       <Routes>
+        <Route path="/boards" element={<BoardList />} />
+        <Route path="/create-board" element={<BoardCreate />} />
+
         <Route path="/" element={<PostList />} />
         <Route path="/posts" element={<PostList />} />
 
