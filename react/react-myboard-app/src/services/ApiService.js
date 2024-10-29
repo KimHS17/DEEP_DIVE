@@ -36,6 +36,10 @@ const ApiService = {
       password: password,
     });
   },
+
+  updatePost(postId, postData){
+    return axios.put(`${API_BASE_URL}/post/${postId}`, postData);
+  }
 };
 
 export default ApiService;

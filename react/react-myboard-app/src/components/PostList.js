@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ApiService from "../services/ApiService";
 import Post from "./Post";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Container, List, ListItem, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const PostList = () => {
-  const { boardId } = useParams();
+  // const { boardId } = useParams();
+  const boardId = useSelector((state) => state.board.boardId);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 

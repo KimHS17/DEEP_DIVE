@@ -5,6 +5,7 @@ import PostDetail from "./components/PostDetail";
 import PostCreate from "./components/PostCreate";
 import BoardList from "./components/BoardList";
 import BoardCreate from "./components/BoardCreate";
+import PostEdit from "./components/PostEdit";
 
 const App = () => {
   return (
@@ -16,11 +17,14 @@ const App = () => {
 
         <Route path="/create-board" element={<BoardCreate />} />
 
-        <Route path="/board/:boardId" element={<PostList />} />
+        {/* <Route path="/board/:boardId" element={<PostList />} /> */}
+        <Route path="/board" element={<PostList />} />
 
         <Route path="/post/:id" element={<PostDetail />} />
 
         <Route path="/create-post" element={<PostCreate />} />
+
+        <Route path="/edit-post/:id" element={PostEdit} />
       </Routes>
     </div>
   );
