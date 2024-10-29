@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PostViewResponse {
+    private Long boardId;
     private Long id;
     private String userName;
     private String email;

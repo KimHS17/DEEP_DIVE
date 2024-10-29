@@ -11,11 +11,12 @@ const App = () => {
     <div>
       <h1>게시판</h1>
       <Routes>
+        <Route path="/" element={<BoardList />} />
         <Route path="/boards" element={<BoardList />} />
+
         <Route path="/create-board" element={<BoardCreate />} />
 
-        <Route path="/" element={<PostList />} />
-        <Route path="/posts" element={<PostList />} />
+        <Route path="/board/:boardId" element={<PostList />} />
 
         <Route path="/post/:id" element={<PostDetail />} />
 

@@ -21,7 +21,7 @@ public class PostService {
 
     public PostResponse create(@Valid PostRequest postRequest) {
         var entity = PostEntity.builder()
-                .boardId(1L) // 임시 고정 : 1번
+                .boardId(postRequest.getBoardId())
                 .userName(postRequest.getUserName())
                 .password(postRequest.getPassword())
                 .email(postRequest.getEmail())
@@ -64,6 +64,20 @@ public class PostService {
     public List<PostViewResponse> all() {
         return postRepository.findAllByStatusOrderByIdDesc("REGISTERED").stream()
                 .map(post -> PostViewResponse.builder()
+                        .id(post.getId())
+                        .userName(post.getUserName())
+                        .email(post.getEmail())
+                        .title(post.getTitle())
+                        .content(post.getContent())
+                        .postedAt(post.getPostedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public List<PostViewResponse> getPostsByBoardId(Long boardId) {
+        return postRepository.findAllByBoardIdAndStatusOrderByIdDesc(boardId, "REGISTERED").stream()
+                .map(post -> PostViewResponse.builder()
+                        .boardId(post.getBoardId())
                         .id(post.getId())
                         .userName(post.getUserName())
                         .email(post.getEmail())

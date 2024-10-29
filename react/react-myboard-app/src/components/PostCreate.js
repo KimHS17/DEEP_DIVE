@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ApiService from "../services/ApiService";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const PostCreate = () => {
   const [userName, setUserName] = useState("");
@@ -9,10 +9,13 @@ const PostCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const boardId = location.state;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = {
+      board_id: boardId,
       user_name: userName,
       password: password,
       email: email,
@@ -23,7 +26,7 @@ const PostCreate = () => {
     try {
       const response = await ApiService.createPost(postData);
       console.log("Post created successfully: ", response.data);
-      navigate("/posts");
+      navigate(`/board/${boardId}`);
     } catch (error) {
       console.error("Error creating post: ", error);
     }

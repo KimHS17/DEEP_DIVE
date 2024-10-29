@@ -1,18 +1,31 @@
 import React, { useState } from "react";
 import ApiService from "../services/ApiService";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
 const Post = ({ post }) => {
-  const [showModal, setshowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    setshowModal(true);
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
   };
 
-  const handlePassword = (e) => {
+  const handleClick = () => {
+    setShowModal(true);
+  };
+
+  const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
@@ -32,28 +45,41 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div>
-      <div onClick={handleClick}>
-        <span>{post.title}</span> | 작성자: {post.user_name} | 작성일:{" "}
+    <Box>
+      <Typography variant="body2" onClick={handleClick}>
+        {post.title} | 작성자: {post.user_name} | 작성일:{" "}
         {new Date(post.posted_at).toLocaleDateString()}
-      </div>
-      {showModal && (
-        <div className="modal">
-          <div className="modal_content">
-            <h4>비밀번호를 입력하세요</h4>
-            <input
-              type="password"
-              value={password}
-              onChange={handlePassword}
-              placeholder="비밀번호"
-            />
-            {errorMessage && <p>{errorMessage}</p>}
-            <button onClick={handleSubmit}>확인</button>
-            <button onClick={() => setshowModal(false)}>취소</button>
-          </div>
-        </div>
-      )}
-    </div>
+      </Typography>
+
+      <Modal open={showModal} onclose={() => setShowModal(false)}>
+        <Box sx={modalStyle}>
+          <Typography variant="h6" gutterBottom>
+            비밀번호를 입력하세요
+          </Typography>
+          <TextField
+            type="password"
+            label="비밀번호"
+            fullWidth
+            value={password}
+            onChange={handlePasswordChange}
+            error={!!errorMessage}
+            helperText={errorMessage}
+          />
+          <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              확인
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setShowModal(false)}
+            >
+              취소
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+    </Box>
   );
 };
 

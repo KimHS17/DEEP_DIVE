@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ApiService from "../services/ApiService";
 import { Link } from "react-router-dom";
+import {
+  Button,
+  Container,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 
 const BoardList = () => {
   const [boards, setBoards] = useState([]);
@@ -20,22 +28,29 @@ const BoardList = () => {
   }, []);
 
   return (
-    <div>
-      <h3>게시판 목록</h3>
-      {boards.map((board) => (
-        <li key={board.board_id}>
-          <Link to={`/posts/${board.board_id}`}>
-            ID : {board.board_id} <br></br>
-            게시판 이름 : {board.board_name} <br></br>
-            상태 : {board.status}
-          </Link>
-        </li>
-      ))}
-      <hr />
-      <Link to="/create-board">
-        <button>게시글 작성</button>
-      </Link>
-    </div>
+    <Container>
+      <Typography variant="h4">게시판 목록</Typography>
+      <List>
+        {boards.map((board) => (
+          <ListItem
+            key={board.board_id}
+            button
+            component={Link}
+            to={`/board/${board.board_id}`}
+          >
+            <ListItemText primary={board.board_name} />
+          </ListItem>
+        ))}
+      </List>
+      <Button
+        variant="contained"
+        color="primary"
+        component={Link}
+        to="/create-board"
+      >
+        새 게시판 추가
+      </Button>
+    </Container>
   );
 };
 

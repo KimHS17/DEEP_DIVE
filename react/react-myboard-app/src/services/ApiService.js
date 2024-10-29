@@ -7,12 +7,16 @@ const ApiService = {
     return axios.get(`${API_BASE_URL}/board/all`);
   },
 
-  createBoard(boardName) {
-    return axios.post(`${API_BASE_URL}/board`, boardName);
+  createBoard(boardData) {
+    return axios.post(`${API_BASE_URL}/board`, boardData);
   },
 
   fetchPosts() {
     return axios.get(`${API_BASE_URL}/post/all`);
+  },
+
+  fetchPostsByBoardId(boardId) {
+    return axios.get(`${API_BASE_URL}/post/${boardId}`);
   },
 
   createPost(postData) {
@@ -21,6 +25,13 @@ const ApiService = {
 
   fetchPostDetails(postId, password) {
     return axios.post(`${API_BASE_URL}/post/view`, {
+      post_id: postId,
+      password: password,
+    });
+  },
+
+  deletePost(postId, password) {
+    return axios.post(`${API_BASE_URL}/post/delete`, {
       post_id: postId,
       password: password,
     });

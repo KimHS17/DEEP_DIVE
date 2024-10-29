@@ -21,6 +21,7 @@ public class PostApiController {
     public PostResponse create(
             @Valid @RequestBody PostRequest postRequest
     ) {
+        System.out.println(postRequest);
         return postService.create(postRequest);
     }
 
@@ -34,6 +35,13 @@ public class PostApiController {
     @GetMapping("/all")
     public List<PostViewResponse> all() {
         return postService.all();
+    }
+
+    @GetMapping("/{boardId}")
+    public List<PostViewResponse> getPostsByBoardId(
+            @PathVariable Long boardId
+    ) {
+        return postService.getPostsByBoardId(boardId);
     }
 
     @PostMapping("/delete")

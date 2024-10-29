@@ -1,35 +1,50 @@
 import React, { useEffect, useState } from "react";
 import ApiService from "../services/ApiService";
 import Post from "./Post";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button, Container, List, ListItem, Typography } from "@mui/material";
 
 const PostList = () => {
+  const { boardId } = useParams();
   const [posts, setPosts] = useState([]);
-
-  const loadPosts = async () => {
-    try {
-      const response = await ApiService.fetchPosts();
-      setPosts(response.data);
-    } catch (error) {
-      console.error("Error fetching posts: ", error);
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const response = await ApiService.fetchPostsByBoardId(boardId);
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching posts: ", error);
+      }
+    };
+
     loadPosts();
-  }, []);
+  }, [boardId]);
+
+  const handleCreatePost = (boardId) => () => {
+    navigate(`/create-post`, { state: boardId });
+  };
 
   return (
-    <div>
-      <h3>게시글 목록</h3>
-      {posts.map((post) => (
-        <Post post={post} />
-      ))}
-      <hr />
-      <Link to="/create-post">
-        <button>게시글 작성</button>
-      </Link>
-    </div>
+    <Container>
+      <Typography variant="h4">게시글 목록</Typography>
+      <List>
+        {posts.map((post) => (
+          <ListItem key={post.post_id}>
+            <Post post={post} />
+          </ListItem>
+        ))}
+      </List>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleCreatePost(boardId)}
+        sx={{ mb: 2 }}
+      >
+        게시글 작성
+      </Button>
+    </Container>
   );
 };
 
