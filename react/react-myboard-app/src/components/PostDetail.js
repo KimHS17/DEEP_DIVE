@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, useLocation, useParams } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import ApiService from "../services/ApiService";
 import {
   Box,
@@ -10,6 +10,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { deletePost } from "../store/slices/postSlice";
+import { useDispatch } from "react-redux";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -19,7 +21,8 @@ const PostDetail = () => {
   const [actionType, setActionType] = useState(""); // edit 또는 delete
   const [errorMessage, setErrorMessage] = useState("");
   const location = useLocation();
-  const navigate = Navigate;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const modalStyle = {
     position: "absolute",
@@ -33,18 +36,26 @@ const PostDetail = () => {
     p: 4,
   };
 
-  useEffect(() => {
-    fetchPostDetails(location.state.password);
-  }, [id, location.state]);
+  //게시글 상세 정보 가져오기
+  const fetchPostDetails = useCallback(
+    async (password) => {
+      try {
+        const response = await ApiService.fetchPostDetails(id, password);
+        setPost(response.data);
+      } catch (error) {
+        setErrorMessage("Error fetching post details");
+        console.error("Error fetching post details: ", error);
+      }
+    },
+    [id]
+  );
 
-  const fetchPostDetails = async (password) => {
-    try {
-      const response = await ApiService.fetchPostDetails(id, password);
-      setPost(response.data);
-    } catch (error) {
-      console.error("Error fetching post details: ", error);
+  //게시글 불러오기
+  useEffect(() => {
+    if (location.state && location.state.password && id) {
+      fetchPostDetails(location.state.password);
     }
-  };
+  }, [id, location.state, fetchPostDetails]);
 
   const handleActionClick = (type) => {
     setActionType(type);
@@ -60,21 +71,26 @@ const PostDetail = () => {
     try {
       //삭제
       if (actionType === "delete") {
-        await ApiService.deletePost(id, password);
-        navigate(`/board/${post.board_id}`);
+        // await ApiService.deletePost(id, password);
+        // navigate(`/board/${post.board_id}`);
+        const resultAction = await dispatch(
+          deletePost({ postId: id, password })
+        );
+        if (deletePost.fulfilled.match(resultAction)) {
+          navigate("/posts");
+        } else {
+          setErrorMessage("삭제에 실패했습니다. 다시 시도해주세요.");
+        }
       }
       //수정
       else if (actionType === "edit") {
-        console.log("test");
-        console.log(post);
+        navigate(`/edit-post/${id}`, {
+          state: { password },
+        });
       }
     } catch (error) {
       console.error("Error fetching post details: ", error);
-      if (error.response && error.response.status === 400) {
-        setErrorMessage("비밀번호가 잘못되었습니다. 다시시도해주세요.");
-      } else {
-        setErrorMessage("오류가 발생했습니다. 다시 시도해주세요.");
-      }
+      setErrorMessage("오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
 

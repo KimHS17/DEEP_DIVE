@@ -32,7 +32,7 @@ const BoardList = () => {
 
   const handleClick = (boardId) => {
     dispatch(setBoardId(boardId));
-    navigate('/board');
+    navigate("/posts");
   };
 
   return (
@@ -46,7 +46,13 @@ const BoardList = () => {
           //   component={Link}
           //   to={`/board/${board.board_id}`}
           // >
-          <ListItem key={board.board_id} button onClick={handleClick}>
+          <ListItem
+            key={board.board_id}
+            button="true"
+            onClick={() => {
+              handleClick(board.board_id);
+            }}
+          >
             <ListItemText primary={board.board_name} />
           </ListItem>
         ))}

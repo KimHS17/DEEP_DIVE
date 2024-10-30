@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const PostList = () => {
   // const { boardId } = useParams();
-  const boardId = useSelector((state) => state.board.boardId);
+  const boardId = useSelector((state) => state.boardState.boardId);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -25,7 +25,8 @@ const PostList = () => {
   }, [boardId]);
 
   const handleCreatePost = (boardId) => () => {
-    navigate(`/create-post`, { state: boardId });
+    // navigate(`/create-post`, { state: boardId });
+    navigate(`/create-post`);
   };
 
   return (
@@ -41,7 +42,7 @@ const PostList = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={handleCreatePost(boardId)}
+        onClick={() => {handleCreatePost(boardId)}}
         sx={{ mb: 2 }}
       >
         게시글 작성

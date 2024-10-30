@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ApiService from "../services/ApiService";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const PostCreate = () => {
   const [userName, setUserName] = useState("");
@@ -9,8 +10,9 @@ const PostCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
-  const boardId = location.state;
+  // const location = useLocation();
+  // const boardId = location.state;
+  const boardId = useSelector((state) => state.boardState.boardId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +28,8 @@ const PostCreate = () => {
     try {
       const response = await ApiService.createPost(postData);
       console.log("Post created successfully: ", response.data);
-      navigate(`/board/${boardId}`);
+      // navigate(`/board/${boardId}`);
+      navigate(`/posts`);
     } catch (error) {
       console.error("Error creating post: ", error);
     }

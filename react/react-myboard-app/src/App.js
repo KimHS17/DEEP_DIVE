@@ -18,7 +18,7 @@ const App = () => {
         <Route path="/create-board" element={<BoardCreate />} />
 
         {/* <Route path="/board/:boardId" element={<PostList />} /> */}
-        <Route path="/board" element={<PostList />} />
+        <Route path="/posts" element={<PostList />} />
 
         <Route path="/post/:id" element={<PostDetail />} />
 
