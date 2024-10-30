@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ApiService from "../services/ApiService";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
 const PostCreate = () => {
   const [userName, setUserName] = useState("");
@@ -36,56 +37,53 @@ const PostCreate = () => {
   };
 
   return (
-    <div>
-      <h3>게시글 작성</h3>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <lable>작성자 이름:</lable>{" "}
-          <input
-            type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <lable>비밀번호:</lable>{" "}
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <lable>이메일:</lable>{" "}
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <lable>제목:</lable>{" "}
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <lable>내용:</lable>{" "}
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">작성하기</button>
-      </form>
-    </div>
+    <Container>
+      <Typography variant="h4">게시글 작성</Typography>
+      <Box>
+        <TextField
+          label="작성자 이름"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          required
+        />
+      </Box>
+      <Box>
+        <TextField
+          label="비밀번호"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </Box>
+      <Box>
+        <TextField
+          label="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </Box>
+      <Box>
+        <TextField
+          label="제목"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </Box>
+      <Box>
+        <TextField
+          label="내용"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+        />
+      </Box>
+      <Button variant="contained" color="primary" onClick={handleSubmit}>
+        작성하기
+      </Button>
+    </Container>
   );
 };
 

@@ -44,10 +44,20 @@ public class PostApiController {
         return postService.getPostsByBoardId(boardId);
     }
 
+    @PutMapping("/{postId}")
+    public PostResponse update(
+            @PathVariable Long postId,
+            @Valid @RequestBody PostRequest postRequest
+    ) {
+        return postService.updatePost(postId, postRequest);
+    }
+
     @PostMapping("/delete")
     public void delete(
             @Valid @RequestBody PostViewRequest postViewRequest
     ) {
         postService.delete(postViewRequest);
     }
+
+
 }

@@ -105,4 +105,26 @@ public class PostService {
                         }
                 );
     }
+
+    public PostResponse updatePost(Long id, @Valid PostRequest postRequest) {
+        var postEntity = postRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 게시글이 존재하지 않습니다."));
+
+        // 비밀번호 검증
+        if(!postEntity.getPassword().equals(postRequest.getPassword())) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+
+        // 게시글 정보 업데이트
+        postEntity.setTitle(postRequest.getTitle());
+        postEntity.setContent(postRequest.getContent());
+        postEntity.setEmail(postRequest.getEmail());
+        postEntity.setUserName(postRequest.getUserName());
+
+        var updateEntity = postRepository.save(postEntity);
+
+        return PostResponse.builder()
+                .id(updateEntity.getId())
+                .status(updateEntity.getStatus())
+                .build();
+    }
 }

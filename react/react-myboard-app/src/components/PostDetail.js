@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ApiService from "../services/ApiService";
 import {
   Box,
@@ -11,10 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import { deletePost } from "../store/slices/postSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const PostDetail = () => {
   const { id } = useParams();
+  const boardId = useSelector((state) => state.boardState.boardId);
   const [post, setPost] = useState(null);
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -42,6 +43,7 @@ const PostDetail = () => {
       try {
         const response = await ApiService.fetchPostDetails(id, password);
         setPost(response.data);
+        console.log(response.data);
       } catch (error) {
         setErrorMessage("Error fetching post details");
         console.error("Error fetching post details: ", error);
@@ -131,7 +133,7 @@ const PostDetail = () => {
         <Grid2 item>
           <Button
             onClick={() => {
-              navigate(`/board/${post.board_id}`);
+              navigate("/posts");
             }}
           >
             목록으로 가기

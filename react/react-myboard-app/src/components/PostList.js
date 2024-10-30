@@ -24,9 +24,9 @@ const PostList = () => {
     loadPosts();
   }, [boardId]);
 
-  const handleCreatePost = (boardId) => () => {
+  const handleCreatePost = (boardId) => {
     // navigate(`/create-post`, { state: boardId });
-    navigate(`/create-post`);
+    navigate("/create-post");
   };
 
   return (
@@ -42,7 +42,9 @@ const PostList = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => {handleCreatePost(boardId)}}
+        onClick={() => {
+          handleCreatePost(boardId);
+        }}
         sx={{ mb: 2 }}
       >
         게시글 작성
