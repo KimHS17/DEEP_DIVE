@@ -1,0 +1,16 @@
+package com.delivery.api.common.error;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public enum UserErrorCode implements ErrorCodeInterface{
+    // (HttpStatusCode, 우리 서비스 에러코드, 코드 설명)
+    USER_NOT_FOUND(400, 1404, "사용자를 찾을 수 없음"),
+    ;
+
+    private final Integer httpStatusCode;
+    private final Integer errorCode;
+    private final String description;
+}
