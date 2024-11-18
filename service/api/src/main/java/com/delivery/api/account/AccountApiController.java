@@ -20,12 +20,16 @@ public class AccountApiController {
 
     // http://localhost:8080/api/account/me
     @GetMapping("me")
-    public Api<Object> me() {
+    public Api<AccountMeResponse> me() {
         var response = AccountMeResponse.builder()
                 .name("홍길동")
                 .email("hong@gmail.com")
                 .registeredAt(LocalDateTime.now())
                 .build();
+
+        // 예외 발생
+        var str = "안녕하세요";
+        var age = Integer.parseInt(str);
 
         return Api.OK(response);
     }
