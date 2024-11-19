@@ -17,7 +17,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("Authorization Interceptor url : {}", request.getRequestURL());
 
-        // WEB, chrome이ㅡ 경우 GET, POST OPTIONS = pass
+        // WEB, chrome의 경우 GET, POST OPTIONS = pass
         if(HttpMethod.OPTIONS.matches(request.getMethod())) {
             return true;
         }

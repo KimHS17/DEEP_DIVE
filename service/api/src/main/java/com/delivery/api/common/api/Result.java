@@ -15,7 +15,7 @@ public class Result {
     private String resultMessage;
     private String resultDescription;
 
-    public static Result OK() {
+    public static Result OK(){
         return Result.builder()
                 .resultCode(200)
                 .resultMessage("OK")
@@ -23,25 +23,25 @@ public class Result {
                 .build();
     }
 
-    public static Result ERROR(ErrorCodeInterface errorCodeInterface) {
+    public static Result ERROR(ErrorCodeInterface errorCodeInterface){
         return Result.builder()
-                .resultCode(errorCodeInterface.getHttpStatusCode())
+                .resultCode(errorCodeInterface.getErrorCode())
                 .resultMessage(errorCodeInterface.getDescription())
                 .resultDescription("오류")
                 .build();
     }
 
-    public static Result ERROR(ErrorCodeInterface errorCodeInterface, Throwable tx) {
+    public static Result ERROR(ErrorCodeInterface errorCodeInterface, Throwable tx){
         return Result.builder()
-                .resultCode(errorCodeInterface.getHttpStatusCode())
+                .resultCode(errorCodeInterface.getErrorCode())
                 .resultMessage(errorCodeInterface.getDescription())
                 .resultDescription(tx.getLocalizedMessage())
                 .build();
     }
 
-    public static Result ERROR(ErrorCodeInterface errorCodeInterface, String descriptions) {
+    public static Result ERROR(ErrorCodeInterface errorCodeInterface, String descriptions){
         return Result.builder()
-                .resultCode(errorCodeInterface.getHttpStatusCode())
+                .resultCode(errorCodeInterface.getErrorCode())
                 .resultMessage(errorCodeInterface.getDescription())
                 .resultDescription(descriptions)
                 .build();
