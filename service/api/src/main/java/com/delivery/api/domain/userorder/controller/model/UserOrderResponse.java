@@ -1,13 +1,13 @@
-package com.delivery.db.userorder;
+package com.delivery.api.domain.userorder.controller.model;
 
-import com.delivery.db.BaseEntity;
 import com.delivery.db.userorder.enums.UserOrderStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,19 +15,14 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@SuperBuilder
-@Entity
-@Table(name = "user_order")
-public class UserOrderEntity extends BaseEntity {
-    @Column(nullable = false)
+@Builder
+public class UserOrderResponse {
+    private Long id;
+
     private Long userId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50, nullable = false)
     private UserOrderStatus status;
 
-    @Column(precision = 11, scale = 4, nullable = false)
     private BigDecimal amount;
 
     private LocalDateTime orderedAt;
